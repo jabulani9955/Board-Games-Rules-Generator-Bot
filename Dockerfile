@@ -4,7 +4,7 @@ COPY /req.txt /app/req.txt
 
 WORKDIR /app
 
-ENV TELEGRAM_TOKEN="2133483587:AAEjM1UBAhEeJQrrBT-HwZwdyOA1YwVcYsY"
+ENV TELEGRAM_TOKEN=""
 
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
