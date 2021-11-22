@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 
 URL_LINKS = "https://www.mosigra.ru/nastolnye-igry/"
-# В словаре HEADERS необходимо заменить 'user-agent' на свой.
+# В словаре HEADERS необходимо заменить значения на свои.
 HEADERS = {
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 YaBrowser/21.8.0.1967 (beta) Yowser/2.5 Safari/537.36", 
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
@@ -25,9 +25,9 @@ def get_html(url, params=None):
 
 
 def get_links(html):
-    """ Возвращает список ссылок на все настольные игры (только на 1 странице) с сайта Мосигра. """
+    """ Возвращает список ссылок на все настольные игры с сайта Мосигра. """
     soup = BeautifulSoup(html, 'lxml')
-    # Применим регулярку к ссылке на последнюю страницу: href="?page=79&results_per_page=33". Заберём номер страницы.
+    # Применим регулярное выражение к ссылке на последнюю страницу: href="?page=79&results_per_page=33". Заберём номер страницы.
     pagination_count = int(re.findall(r'\d+', soup.find('a', class_='last').get('href'))[0])
     all_links = []
     for page in range(1, pagination_count + 1):
@@ -72,7 +72,7 @@ def parse():
     
     urls_count = len(url_list)
 
-    for i, url in enumerate(url_list[60:70]):
+    for i, url in enumerate(url_list):
         time.sleep(randrange(1, 3))
         try:
             html = get_html(url + 'rules/')
