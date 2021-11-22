@@ -1,14 +1,19 @@
 FROM python:3.8
 
-WORKDIR /tg_bot
+COPY /req.txt /app/req.txt
 
-ENV TELEGRAM_TOKEN="2119124064:AAE3NlfKfaOTgxXYicCBG2CJ4_0C0I69Bc4"
+WORKDIR /app
+
+ENV TELEGRAM_TOKEN="2133483587:AAEjM1UBAhEeJQrrBT-HwZwdyOA1YwVcYsY"
 
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# RUN pip install -r pip aiogram pytz && apt-get update && apt-get install sqlite3
-RUN pip install -U pip -r req.txt
-COPY . .
+RUN python3.8 -m pip install -U pip
+RUN python3.8 -m pip install -r /app/req.txt
 
-ENTRYPOINT [ "python", "bot.py" ]
+COPY . /app
+
+RUN python3.8 -m pip install /app/torch-1.10.0-cp38-cp38-manylinux1_x86_64.whl
+
+ENTRYPOINT [ "python3.8", "bot.py" ]
