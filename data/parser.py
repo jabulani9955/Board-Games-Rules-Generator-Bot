@@ -90,7 +90,8 @@ def parse():
 
 if __name__ == '__main__':
     # Строчку ниже нужно запустить ТОЛЬКО ОДИН РАЗ, чтобы собрать все ссылки в один файл. Затем её надо закомментировать.
-    print(get_links(URL_LINKS))
+    html = get_html(URL_LINKS)
+    print(get_links(html.text))
 
     # Запуск парсинга. 
     print(parse())
