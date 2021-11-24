@@ -2,13 +2,15 @@ import os
 import time
 import logging
 
-import textwrap
 from dotenv import load_dotenv
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+from aiogram.utils.markdown import text, bold, italic, code, pre
+from aiogram.types import ParseMode
 
 from model.model_generate import generate
+from model.text_processing import processing
 
 
 START = """
@@ -33,7 +35,8 @@ logging.basicConfig(
 
 # Загрузка токена через env
 # load_dotenv()
-TOKEN = os.getenv('TELEGRAM_TOKEN')
+# TOKEN = os.getenv('TELEGRAM_TOKEN')
+TOKEN = '2119124064:AAE3NlfKfaOTgxXYicCBG2CJ4_0C0I69Bc4'
 
 # Инициализация бота
 bot = Bot(token=TOKEN)
@@ -56,9 +59,14 @@ async def about(message: types.Message):
 @dp.message_handler()
 async def main(message: types.Message):
     user_id = message.from_user.id
+    msg = message.text.capitalize().strip()
     try:
         await bot.send_sticker(user_id, STICKER)
-        await message.reply(textwrap.fill(generate(message.text), 120))
+        generated_text = processing(generate(msg))
+        await message.reply(
+            bold(msg) + generated_text.replace(msg, ''),
+            parse_mode=ParseMode.MARKDOWN
+        )
     except Exception as e:
         await message.reply(f'Возникла ошибка {e.args}')
 

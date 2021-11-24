@@ -1,11 +1,12 @@
 import time
 
+import textwrap
 import torch
 from transformers import GPT2Tokenizer
 
 
 try:
-    model = torch.load('model.pt', map_location=torch.device('cpu'))
+    model = torch.load('model/model.pt', map_location=torch.device('cpu'))
     tokenizer = GPT2Tokenizer.from_pretrained('sberbank-ai/rugpt3small_based_on_gpt2')
 except Exception as e:
     print(f'Loading model error: {e.args}')
@@ -35,4 +36,4 @@ def generate(prompt, len_gen=100, temperature=.8):
         sequence = tokenizer.decode(generated)
     except Exception as e:
         print(f"Error: {e.args}")
-    return sequence
+    return textwrap.fill(sequence, 120)
